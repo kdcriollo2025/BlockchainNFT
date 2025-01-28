@@ -17,6 +17,11 @@ class TherapyRecord extends Model
         'detail'
     ];
 
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date'
+    ];
+
     public function medicalHistory()
     {
         return $this->belongsTo(MedicalHistory::class, 'medical_history_id');

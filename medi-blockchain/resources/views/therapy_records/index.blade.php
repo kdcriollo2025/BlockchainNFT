@@ -1,22 +1,22 @@
 @extends('adminlte::page')
 
-@section('title', 'Registros de Terapia')
+@section('title', 'Registros de Terapias')
 
 @section('content_header')
-    <h1>Registros de Terapia</h1>
+    <h1>Registros de Terapias</h1>
 @stop
 
 @section('content')
-    <a href="{{ route('therapy_records.create') }}" class="btn btn-primary btn-sm mb-3">Nuevo</a>
+    <a href="{{ route('medico.therapy_records.create') }}" class="btn btn-primary btn-sm mb-3">Nuevo</a>
     <table class="table table-hover table-dark dataTable">
         <thead>
         <tr>
             <th scope="col">Paciente</th>
             <th scope="col">Tipo de Terapia</th>
-            <th scope="col">Fecha de Inicio</th>
-            <th scope="col">Fecha de Fin</th>
-            <th scope="col">Notas de la Terapia</th>
-            <th scope="col" colspan="2">Acciones</th>
+            <th scope="col">Fecha Inicio</th>
+            <th scope="col">Fecha Fin</th>
+            <th scope="col">Detalles</th>
+            <th scope="col">Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -24,17 +24,14 @@
             <tr>
                 <td>{{ $therapy->medicalHistory->patient->name }}</td>
                 <td>{{ $therapy->type }}</td>
-                <td>{{ $therapy->start_date }}</td>
-                <td>{{ $therapy->end_date }}</td>
-                <td>{{ $therapy->detail }}</td>
-                <td><a href="{{ route('therapy_records.edit', ['therapy_record' => $therapy->id]) }}"
-                       class="btn btn-secondary btn-sm">Editar</a></td>
+                <td>{{ $therapy->start_date->format('d/m/Y') }}</td>
+                <td>{{ $therapy->end_date->format('d/m/Y') }}</td>
+                <td>{{ Str::limit($therapy->detail, 50) }}</td>
                 <td>
-                    <form action="{{ route('therapy_records.destroy', [ 'therapy_record' => $therapy->id ]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
+                    <a href="{{ route('medico.therapy_records.edit', ['therapy_record' => $therapy->id]) }}"
+                       class="btn btn-warning btn-sm" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </a>
                 </td>
             </tr>
         @endforeach
@@ -47,4 +44,14 @@
 @stop
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            $('.dataTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                },
+                "order": [[2, "desc"]]
+            });
+        });
+    </script>
 @stop

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('allergy_records', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('medical_history_id');
-            $table->string('allergy_type', 100);
-            $table->string('reaction', 100);
-            $table->date('date');
+            $table->string('allergy_name');
+            $table->string('severity_level');
+            $table->text('allergy_symptoms');
+            $table->date('diagnosis_date');
             $table->timestamps();
         });
     }

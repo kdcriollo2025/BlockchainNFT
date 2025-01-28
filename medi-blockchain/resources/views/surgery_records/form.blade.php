@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <form action="{{ !isset($surgeryRecord) ? route('surgery_records.store') : route('surgery_records.update', ['surgery_record' => $surgeryRecord->id]) }}"
+    <form action="{{ !isset($surgeryRecord) ? route('medico.surgery_records.store') : route('medico.surgery_records.update', ['surgery_record' => $surgeryRecord->id]) }}"
           method="POST">
         @csrf
         @if (isset($surgeryRecord))
@@ -30,41 +30,47 @@
                 @endif
             </div>
             <div class="col-4">
-                <label for="type" class="form-label">Tipo de Cirugía</label>
-                <input type="text" class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" id="type"
-                       name="type" value="{{ isset($surgeryRecord) ? $surgeryRecord->type : old('type') }}">
-                @if ($errors->has('type'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ __($errors->first('type')) }}</strong>
-                    </span>
-                @endif
+                <label for="surgery_name" class="form-label">Nombre de la Cirugía <span class="text-danger">*</span></label>
+                <input type="text" name="surgery_name" id="surgery_name" class="form-control @error('surgery_name') is-invalid @enderror"
+                       value="{{ old('surgery_name', $surgeryRecord->surgery_name ?? '') }}" required>
+                @error('surgery_name')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                @enderror
             </div>
-
             <div class="col-4">
-                <label for="date" class="form-label">Fecha de Cirugía</label>
-                <input type="date" class="form-control {{ $errors->has('date') ? 'is-invalid' : '' }}" id="date"
-                       name="date" value="{{ isset($surgeryRecord) ? $surgeryRecord->date : old('date') }}">
-                @if ($errors->has('date'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ __($errors->first('date')) }}</strong>
-                    </span>
-                @endif
-            </div>
-
-            <div class="col-12">
-                <label for="details" class="form-label">Detalles de la Cirugía</label>
-                <input type="text" class="form-control {{ $errors->has('details') ? 'is-invalid' : '' }}" id="details"
-                       name="details" value="{{ isset($surgeryRecord) ? $surgeryRecord->details : old('details') }}">
-                @if ($errors->has('details'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ __($errors->first('details')) }}</strong>
-                    </span>
-                @endif
+                <label for="surgeon" class="form-label">Cirujano <span class="text-danger">*</span></label>
+                <input type="text" name="surgeon" id="surgeon" class="form-control @error('surgeon') is-invalid @enderror"
+                       value="{{ old('surgeon', $surgeryRecord->surgeon ?? '') }}" required>
+                @error('surgeon')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                @enderror
             </div>
         </div>
 
-        <div class="row p-3">
-            <button type="submit" class="btn btn-primary">Guardar</button>
+        <div class="row mb-3">
+            <div class="col-4">
+                <label for="surgery_date" class="form-label">Fecha de la Cirugía <span class="text-danger">*</span></label>
+                <input type="date" name="surgery_date" id="surgery_date" class="form-control @error('surgery_date') is-invalid @enderror"
+                       value="{{ old('surgery_date', isset($surgeryRecord) ? $surgeryRecord->surgery_date->format('Y-m-d') : '') }}" required>
+                @error('surgery_date')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="col-4">
+                <label for="details" class="form-label">Detalles <span class="text-danger">*</span></label>
+                <textarea name="details" id="details" class="form-control @error('details') is-invalid @enderror"
+                          rows="3" required>{{ old('details', $surgeryRecord->details ?? '') }}</textarea>
+                @error('details')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">{{ isset($surgeryRecord) ? 'Actualizar' : 'Guardar' }}</button>
+                <a href="{{ route('medico.surgery_records.index') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
         </div>
     </form>
 @stop

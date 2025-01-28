@@ -11,9 +11,14 @@ class SurgeryRecord extends Model
 
     protected $fillable = [
         'medical_history_id',
-        'type',
-        'date',
+        'surgery_name',
+        'surgeon',
+        'surgery_date',
         'details'
+    ];
+
+    protected $casts = [
+        'surgery_date' => 'date'
     ];
 
     public function medicalHistory()

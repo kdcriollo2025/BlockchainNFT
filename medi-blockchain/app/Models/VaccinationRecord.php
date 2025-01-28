@@ -11,9 +11,15 @@ class VaccinationRecord extends Model
 
     protected $fillable = [
         'medical_history_id',
-        'name',
-        'date',
-        'dose'
+        'vaccine_name',
+        'application_date',
+        'dose',
+        'next_application_date'
+    ];
+
+    protected $casts = [
+        'application_date' => 'date',
+        'next_application_date' => 'date'
     ];
 
     public function medicalHistory()

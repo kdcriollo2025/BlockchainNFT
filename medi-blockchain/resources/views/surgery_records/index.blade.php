@@ -7,32 +7,41 @@
 @stop
 
 @section('content')
-    <a href="{{ route('surgery_records.create') }}" class="btn btn-primary btn-sm mb-3">Nuevo</a>
+    <a href="{{ route('medico.surgery_records.create') }}" class="btn btn-primary btn-sm mb-3">Nuevo</a>
     <table class="table table-hover table-dark dataTable">
         <thead>
         <tr>
             <th scope="col">Paciente</th>
-            <th scope="col">Tipo de Cirugía</th>
+            <th scope="col">Nombre de la Cirugía</th>
+            <th scope="col">Cirujano</th>
             <th scope="col">Fecha de Cirugía</th>
-            <th scope="col">Detalles de la Cirugía</th>
-            <th scope="col" colspan="2">Acciones</th>
+            <th scope="col">Detalles</th>
+            <th scope="col">Acciones</th>
         </tr>
         </thead>
         <tbody>
         @foreach ($surgeryRecords as $surgery)
             <tr>
                 <td>{{ $surgery->medicalHistory->patient->name }}</td>
-                <td>{{ $surgery->type }}</td>
-                <td>{{ $surgery->date }}</td>
-                <td>{{ $surgery->details }}</td>
-                <td><a href="{{ route('surgery_records.edit', ['surgery_record' => $surgery->id]) }}"
-                       class="btn btn-secondary btn-sm">Editar</a></td>
+                <td>{{ $surgery->surgery_name }}</td>
+                <td>{{ $surgery->surgeon }}</td>
+                <td>{{ $surgery->surgery_date ? $surgery->surgery_date->format('d/m/Y') : '' }}</td>
+                <td>{{ Str::limit($surgery->details, 50) }}</td>
                 <td>
-                    <form action="{{ route('surgery_records.destroy', [ 'surgery_record' => $surgery->id ]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
+                    <div class="btn-group" role="group">
+                        <a href="{{ route('medico.surgery_records.edit', ['surgery_record' => $surgery->id]) }}"
+                           class="btn btn-warning btn-sm" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="{{ route('medico.surgery_records.destroy', ['surgery_record' => $surgery->id]) }}" 
+                              method="POST" 
+                              style="display: inline;" 
+                              onsubmit="return confirm('¿Estás seguro de que deseas eliminar este registro?');">
+                            @csrf
+                            @method('DELETE')
+                
+                        </form>
+                    </div>
                 </td>
             </tr>
         @endforeach
@@ -45,4 +54,14 @@
 @stop
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            $('.dataTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                },
+                "order": [[3, "desc"]]
+            });
+        });
+    </script>
 @stop

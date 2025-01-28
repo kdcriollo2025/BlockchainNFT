@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <form action="{{ !isset($vaccinationRecord) ? route('vaccination_records.store') : route('vaccination_records.update', ['vaccination_record' => $vaccinationRecord->id]) }}"
+    <form action="{{ !isset($vaccinationRecord) ? route('medico.vaccination_records.store') : route('medico.vaccination_records.update', ['vaccination_record' => $vaccinationRecord->id]) }}"
           method="POST">
         @csrf
         @if (isset($vaccinationRecord))
@@ -30,31 +30,31 @@
                 @endif
             </div>
             <div class="col-4">
-                <label for="name" class="form-label">Vacuna</label>
-                <input type="text" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" id="name"
-                       name="name" value="{{ isset($vaccinationRecord) ? $vaccinationRecord->name : old('name') }}">
-                @if ($errors->has('name'))
+                <label for="vaccine_name" class="form-label">Nombre de la Vacuna</label>
+                <input type="text" name="vaccine_name" id="vaccine_name" class="form-control {{ $errors->has('vaccine_name') ? 'is-invalid' : '' }}"
+                       value="{{ old('vaccine_name', isset($vaccinationRecord) ? $vaccinationRecord->vaccine_name : '') }}">
+                @if ($errors->has('vaccine_name'))
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ __($errors->first('name')) }}</strong>
+                        <strong>{{ __($errors->first('vaccine_name')) }}</strong>
                     </span>
                 @endif
             </div>
-
             <div class="col-4">
-                <label for="date" class="form-label">Fecha de Vacunación</label>
-                <input type="date" class="form-control {{ $errors->has('date') ? 'is-invalid' : '' }}" id="date"
-                       name="date" value="{{ isset($vaccinationRecord) ? $vaccinationRecord->date : old('date') }}">
-                @if ($errors->has('date'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ __($errors->first('date')) }}</strong>
-                    </span>
-                @endif
+                <label for="application_date">Fecha de Aplicación <span class="text-danger">*</span></label>
+                <input type="date" class="form-control @error('application_date') is-invalid @enderror" 
+                       id="application_date" name="application_date" 
+                       value="{{ old('application_date', isset($vaccinationRecord) ? $vaccinationRecord->application_date->format('Y-m-d') : '') }}" required>
+                @error('application_date')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                @enderror
             </div>
+        </div>
 
+        <div class="row mb-3">
             <div class="col-12">
                 <label for="dose" class="form-label">Dosis</label>
-                <input type="number" class="form-control {{ $errors->has('dose') ? 'is-invalid' : '' }}" id="dose"
-                       name="dose" value="{{ isset($vaccinationRecord) ? $vaccinationRecord->dose : old('dose') }}">
+                <input type="text" name="dose" id="dose" class="form-control {{ $errors->has('dose') ? 'is-invalid' : '' }}"
+                       value="{{ old('dose', isset($vaccinationRecord) ? $vaccinationRecord->dose : '') }}">
                 @if ($errors->has('dose'))
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ __($errors->first('dose')) }}</strong>
@@ -63,8 +63,11 @@
             </div>
         </div>
 
-        <div class="row p-3">
-            <button type="submit" class="btn btn-primary">Guardar</button>
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">{{ isset($vaccinationRecord) ? 'Actualizar' : 'Guardar' }}</button>
+                <a href="{{ route('medico.vaccination_records.index') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
         </div>
     </form>
 @stop

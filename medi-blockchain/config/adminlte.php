@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'ESPE',
+    'title' => 'BETA',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>ESPE</b>',
+    'logo' => '<b>BETA</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -294,56 +294,109 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        /*[
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],*/
+        // Menú para médicos
         [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
+            'header' => 'MENÚ MÉDICO',
+            'can'  => 'medico'
         ],
-
-        // Sidebar items:
-        /*[
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],*/
         [
-            'text' => 'Historias médicas',
-            'url' => 'medical_histories',
-            'icon' => 'fas fa-fw fa-notes-medical',
+            'text' => 'Dashboard',
+            'url'  => 'medico/dashboard',
+            'icon' => 'fas fa-fw fa-home',
+            'can'  => 'medico'
         ],
         [
             'text' => 'Pacientes',
-            'url' => 'patients',
-            'icon' => 'fas fa-fw fa-user',
+            'url'  => 'medico/patients',
+            'icon' => 'fas fa-fw fa-users',
+            'can'  => 'medico'
         ],
         [
-            'text' => 'Registros de alergias',
-            'url' => 'allergy_records',
+            'text' => 'Historias Médicas',
+            'url'  => 'medico/medical_histories',
+            'icon' => 'fas fa-fw fa-file-medical',
+            'can'  => 'medico'
+        ],
+        [
+            'text' => 'Alergias',
+            'url'  => 'medico/allergy_records',
             'icon' => 'fas fa-fw fa-allergies',
+            'can'  => 'medico'
         ],
         [
-            'text' => 'Registros de cirugía',
-            'url' => 'surgery_records',
-            'icon' => 'fas fa-fw fa-scalpel',
+            'text' => 'Cirugías',
+            'url'  => 'medico/surgery_records',
+            'icon' => 'fas fa-fw fa-procedures',
+            'can'  => 'medico'
         ],
         [
-            'text' => 'Consultas médicas',
-            'url' => 'medical_consultation_records',
+            'text' => 'Consultas Médicas',
+            'url'  => 'medico/medical_consultation_records',
             'icon' => 'fas fa-fw fa-stethoscope',
+            'can'  => 'medico'
         ],
         [
-            'text' => 'Registros de terapia',
-            'url' => 'therapy_records',
-            'icon' => 'fas fa-fw fa-capsules',
+            'text' => 'Terapias',
+            'url'  => 'medico/therapy_records',
+            'icon' => 'fas fa-fw fa-hand-holding-medical',
+            'can'  => 'medico'
         ],
         [
-            'text' => 'Registros de vacunación',
-            'url' => 'vaccination_records',
+            'text' => 'Vacunas',
+            'url'  => 'medico/vaccination_records',
             'icon' => 'fas fa-fw fa-syringe',
+            'can'  => 'medico'
+        ],
+
+        // Menú para administradores
+        [
+            'header' => 'ADMINISTRACIÓN',
+            'can'  => 'admin'
+        ],
+        [
+            'text' => 'Médicos',
+            'url'  => 'admin/medicos',
+            'icon' => 'fas fa-user-md',
+            'can'  => 'admin',
+        ],
+        [
+            'text' => 'Reportes',
+            'url'  => 'admin/reports',
+            'icon' => 'fas fa-chart-line',
+            'can'  => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'Vista General',
+                    'url'  => 'admin/reports',
+                    'icon' => 'fas fa-home',
+                ],
+                [
+                    'text' => 'Pacientes por Médico',
+                    'url'  => 'admin/reports/patients-per-doctor',
+                    'icon' => 'fas fa-user-md',
+                ],
+                [
+                    'text' => 'Diagnósticos Frecuentes',
+                    'url'  => 'admin/reports/common-diagnoses',
+                    'icon' => 'fas fa-stethoscope',
+                ],
+                [
+                    'text' => 'Consultas en el Tiempo',
+                    'url'  => 'admin/reports/consultations-over-time',
+                    'icon' => 'fas fa-chart-area',
+                ],
+                [
+                    'text' => 'Demografía de Pacientes',
+                    'url'  => 'admin/reports/patient-demographics',
+                    'icon' => 'fas fa-users',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Cambiar Contraseña',
+            'url'  => 'change-password',
+            'icon' => 'fas fa-key',
+            'topnav_right' => true,
         ],
     ],
 
@@ -500,4 +553,8 @@ return [
     */
 
     'livewire' => false,
+
+    // Textos personalizados para el login
+    'login_message' => 'Inicio de sesión',
+    'remember_me_enabled' => false,
 ];

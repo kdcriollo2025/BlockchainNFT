@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UsersTableSeeder extends Seeder
 {
@@ -16,31 +17,24 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            [
-                'name' => 'Admin ESPE',
-                'email' => 'admin@espe.edu.ec',
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-                'created_at' => now(),
-                'updated_at' => now()
-            ],/* [
-                'name' => 'Karla Criollo',
-                'email' => '@espe.edu.ec',
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-                'created_at' => now(),
-                'updated_at' => now()
-            ], [
-                'name' => 'Anahí Naula',
-                'email' => '@espe.edu.ec',
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-                'created_at' => now(),
-                'updated_at' => now()
-            ]*/
-        ];
+        // Asegurarse de que el rol existe
+        $adminRole = Role::where('name', 'admin')->first();
+        if (!$adminRole) {
+            $adminRole = Role::create(['name' => 'admin']);
+        }
 
-        foreach ($users as $usr) User::create($usr);
+        // Crear usuario administrador
+        $admin = User::create([
+            'name' => 'Admin ESPE',
+            'email' => 'admin@espe.edu.ec',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'type' => 'admin',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        // Asignar rol
+        $admin->assignRole($adminRole);
     }
 }

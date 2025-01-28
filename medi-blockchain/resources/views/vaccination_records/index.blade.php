@@ -7,32 +7,29 @@
 @stop
 
 @section('content')
-    <a href="{{ route('vaccination_records.create') }}" class="btn btn-primary btn-sm mb-3">Nuevo</a>
+    <a href="{{ route('medico.vaccination_records.create') }}" class="btn btn-primary btn-sm mb-3">Nuevo</a>
     <table class="table table-hover table-dark dataTable">
         <thead>
         <tr>
             <th scope="col">Paciente</th>
             <th scope="col">Vacuna</th>
-            <th scope="col">Fecha de Vacunación</th>
+            <th scope="col">Fecha</th>
             <th scope="col">Dosis</th>
-            <th scope="col" colspan="2">Acciones</th>
+            <th scope="col">Acciones</th>
         </tr>
         </thead>
         <tbody>
         @foreach ($vaccinationRecords as $vaccination)
             <tr>
                 <td>{{ $vaccination->medicalHistory->patient->name }}</td>
-                <td>{{ $vaccination->name }}</td>
-                <td>{{ $vaccination->date }}</td>
+                <td>{{ $vaccination->vaccine_name }}</td>
+                <td>{{ $vaccination->application_date ? $vaccination->application_date->format('d/m/Y') : '' }}</td>
                 <td>{{ $vaccination->dose }}</td>
-                <td><a href="{{ route('vaccination_records.edit', ['vaccination_record' => $vaccination->id]) }}"
-                       class="btn btn-secondary btn-sm">Editar</a></td>
                 <td>
-                    <form action="{{ route('vaccination_records.destroy', [ 'vaccination_record' => $vaccination->id ]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
+                    <a href="{{ route('medico.vaccination_records.edit', ['vaccination_record' => $vaccination->id]) }}"
+                       class="btn btn-warning btn-sm" title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </a>
                 </td>
             </tr>
         @endforeach
@@ -45,4 +42,14 @@
 @stop
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            $('.dataTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                },
+                "order": [[2, "desc"]]
+            });
+        });
+    </script>
 @stop

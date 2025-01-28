@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('vaccination_records', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('medical_history_id');
-            $table->string('name', 50);
-            $table->date('date');
-            $table->integer('dose');
+            $table->string('vaccine_name');
+            $table->string('dose');
+            $table->date('application_date');
+            $table->date('next_application_date')->nullable();
             $table->timestamps();
         });
     }

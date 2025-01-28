@@ -7,31 +7,25 @@
 @stop
 
 @section('content')
-    <a href="{{ route('medical_histories.create') }}" class="btn btn-primary btn-sm mb-3">Nuevo</a>
+    <a href="{{ route('medico.medical_histories.create') }}" class="btn btn-primary btn-sm mb-3">Nuevo</a>
     <table class="table table-hover table-dark dataTable">
         <thead>
         <tr>
             <th scope="col">Paciente</th>
             <th scope="col">Fecha de Creación</th>
-            <th scope="col">Hash</th>
-            <th scope="col" colspan="2">Acciones</th>
+            <th scope="col">Acciones</th>
         </tr>
         </thead>
         <tbody>
         @foreach ($medicalHistories as $medicalHistory)
             <tr>
                 <td>{{ $medicalHistory->patient->name }}</td>
-                <td>{{ $medicalHistory->created_at }}</td>
-                <td>{{ $medicalHistory->hash }}</td>
-
-                <td><a href="{{ route('medical_histories.edit', ['medical_history' => $medicalHistory->id]) }}"
-                       class="btn btn-secondary btn-sm">Editar</a></td>
+                <td>{{ $medicalHistory->created_at->format('d/m/Y H:i:s') }}</td>
                 <td>
-                    <form action="{{ route('medical_histories.destroy', ['medical_history' => $medicalHistory->id]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </form>
+                    <a href="{{ route('medico.medical_histories.show', $medicalHistory->id) }}" 
+                       class="btn btn-info btn-sm" title="Ver Historial Completo">
+                        <i class="fas fa-eye"></i>
+                    </a>
                 </td>
             </tr>
         @endforeach
@@ -44,4 +38,14 @@
 @stop
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            $('.dataTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                },
+                "order": [[1, "desc"]]
+            });
+        });
+    </script>
 @stop

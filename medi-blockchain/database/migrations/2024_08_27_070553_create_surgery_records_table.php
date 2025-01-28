@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('surgery_records', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('medical_history_id');
-            $table->string('type', 100);
-            $table->date('date');
-            $table->string('details', 255);
+            $table->string('surgery_name');
+            $table->string('surgeon');
+            $table->date('surgery_date');
+            $table->text('details')->nullable();
             $table->timestamps();
         });
     }

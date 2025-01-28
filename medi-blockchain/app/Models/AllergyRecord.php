@@ -11,13 +11,18 @@ class AllergyRecord extends Model
 
     protected $fillable = [
         'medical_history_id',
-        'allergy_type',
-        'reaction',
-        'date'
+        'allergy_name',
+        'severity_level',
+        'allergy_symptoms',
+        'diagnosis_date'
+    ];
+
+    protected $casts = [
+        'diagnosis_date' => 'date'
     ];
 
     public function medicalHistory()
     {
-        return $this->belongsTo(MedicalHistory::class, 'medical_history_id');
+        return $this->belongsTo(MedicalHistory::class);
     }
 }
